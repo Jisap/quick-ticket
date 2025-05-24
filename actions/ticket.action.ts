@@ -1,6 +1,7 @@
 "use server"
 
 import { prisma } from "@/db/prisma";
+import { getCurrentUser } from "@/lib/current-user";
 import { logEvent } from "@/utils/sentry";
 
 import { revalidatePath } from "next/cache";
@@ -14,6 +15,16 @@ export const createTicket = async (
 ): Promise<{success: boolean; message: string}> => {
 
   try {
+    const user = await getCurrentUser();
+
+    if (!user) {
+      logEvent('Unauthorized ticket creation attempt', 'ticket', {}, 'warning');
+
+      return {
+        success: false,
+        message: 'You must be logged in to create a ticket',
+      };
+    }
     
     const subject = formData.get("subject") as string;
     const description = formData.get("description") as string;
@@ -37,6 +48,9 @@ export const createTicket = async (
         subject,
         description,
         priority,
+        user: {
+          connect: {id: user.id}
+        }
       },
     });
 
@@ -72,7 +86,15 @@ export const createTicket = async (
 
 export const getTickets = async () => {
   try {
+    const user = await getCurrentUser();
+
+    if (!user) {
+      logEvent('Unauthorized access to ticket list', 'ticket', {}, 'warning');
+      return [];
+    }
+
     const tickets = await prisma.ticket.findMany({
+      where: { userId: user.id },
       orderBy: { createdAt: "desc" },
     });
 
