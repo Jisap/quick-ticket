@@ -1,7 +1,6 @@
 import { getTicketById } from "@/actions/ticket.action"
 import { logEvent } from "@/utils/sentry"
 import { getPriorityClass } from "@/utils/ui"
-import { log } from "console"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
