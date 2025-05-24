@@ -72,3 +72,4 @@ export const removeAuthCookie = async() => {
     logEvent("Failed to remove cookie", "auth", {}, "error", error);
   }
 }
+
