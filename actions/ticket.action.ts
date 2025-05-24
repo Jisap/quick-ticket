@@ -68,12 +68,20 @@ export const createTicket = async (
       message: "An error occurred while creating the ticket",
     }
   }
+}
 
+export const getTickets = async () => {
+  try {
+    const tickets = await prisma.ticket.findMany({
+      orderBy: { createdAt: "desc" },
+    });
 
+    logEvent("Fetched tickets list", "ticket", {count: tickets.length}, "info");
 
+    return tickets;
 
-  return {
-    success: true,
-    message: "Ticket created successfully",
-  };
+  } catch (error) {
+    logEvent("Error fetching tickets", "ticket" , {}, "error", error)
+    return [];
+  }
 }
