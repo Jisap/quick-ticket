@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/lib/current-user"
 import Link from "next/link"
-import LogoutButton from "./LogoButton";
+import LogoutButton from "./LogoutButton";
 
 
 

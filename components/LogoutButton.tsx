@@ -4,7 +4,9 @@ import { useActionState, useEffect } from 'react';
 import { logoutUser } from '@/actions/auth.actions';
 import { toast } from 'sonner';
 
+
 const LogoutButton = () => {
+
   const initialState = {
     success: false,
     message: '',
