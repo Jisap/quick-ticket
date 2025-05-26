@@ -1,4 +1,5 @@
 import { getTicketById } from "@/actions/ticket.action"
+import CloseTicketButton from "@/components/CloseTicketButton"
 import { logEvent } from "@/utils/sentry"
 import { getPriorityClass } from "@/utils/ui"
 import Link from "next/link"
@@ -49,12 +50,12 @@ const TicketDetailsPage = async({ params }: TicketDetailsPageProps) => {
           ← Back to Tickets
         </Link>
 
-        {/* {ticket.status !== 'Closed' && (
+        {ticket.status !== 'Closed' && ( // Se muestra el botón solo si el ticket no está cerrado
           <CloseTicketButton
             ticketId={ticket.id}
-            isClosed={ticket.status === 'Closed'}
+            isClosed={ticket.status === 'Closed'} // Si no está cerrado isClosed será false
           />
-        )} */}
+        )}
       </div>
     </div>
   );

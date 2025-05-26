@@ -130,9 +130,9 @@ export const getTicketById = async (id: string) => {
 // Close Ticket
 export async function closeTicket(
   prevState: { success: boolean; message: string },
-  formData: FormData
+  formData: FormData                                                // Recibe el id del ticket desde un button envuelto en un form desde los params de /tickets/[id]
 ): Promise<{ success: boolean; message: string }> {
-  
+
   const ticketId = Number(formData.get('ticketId'));
 
   if (!ticketId) {
@@ -140,7 +140,7 @@ export async function closeTicket(
     return { success: false, message: 'Ticket ID is Required' };
   }
 
-  const user = await getCurrentUser();
+  const user = await getCurrentUser(); 
 
   if (!user) {
     logEvent('Missing user ID', 'ticket', {}, 'warning');
@@ -166,7 +166,7 @@ export async function closeTicket(
     };
   }
 
-  await prisma.ticket.update({
+  await prisma.ticket.update({ // Actualiza el ticket a cerrado
     where: { id: ticketId },
     data: { status: 'Closed' },
   });
